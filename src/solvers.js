@@ -16,31 +16,100 @@
 
 
 window.findNRooksSolution = function(n) {
-  var myBoard = new Board({n: n});
-  var allCompleteSolutions = [];
-  var allValidPossibleMoves = addNextPiece(myBoard);
-  allValidPossibleMoves.forEach(function(state) {
-    addNextPiece(state);
-  });
-  var partialAnswers = [];
-  //returns an array of all possible moves
-  var addNextPiece = function(board = new Board({n: n})) {
-    var originalBoard = [...board];
-    var temp = [];
-    for (var i = 0; i < n; i ++) {
-      for (var j = 0; j < n; j++) {
-        if (!board.hasRowConflictAt(i) && !board.hasAnyColConflicts(j) && board[i][j] !== 1) {
-          board[i][j] = 1;
-          temp.push(board);
-          board = originalBoard;
+  if (n === 1) {
+    return [[1]];
+  }
+  if (n === 2) {
+    
+  }
+  
+  var solution;
+  var helper = function(board, numQueens) {
+    if (numQueens === n) {
+      solution = board.rows();
+      return;
+    }
+    for (var r = 0; r < n; r++) {
+      for (var c = 0; c < n; c++) {
+        if (board.get(r)[c] !== 1) {
+          board.togglePiece(r, c);
+          if (!board.hasAnyRooksConflicts()) {
+            helper(board, numQueens + 1);
+            if (solution !== undefined) {
+              return solution;
+            }
+          }
+          board.togglePiece(r, c);
         }
       }
     }
-    partialAnswers.push(temp);
   };
-    
- 
+  return helper(new Board({n: n}), 0);
 };
+
+//get a board, and returns a list of all the next Valid states
+//valid as in no row conflict and no column conflict
+// window.getValidMoves = function(board) {
+//   var result = [];
+//   var size = board.get('n');
+//   var originalBoard = board.rows();
+//   var newBoard = createCopy(board);
+  
+//   for (var r = 0; r < size; r++) {
+//     for (var c = 0; c < size; c++) {
+//       if (newBoard[r][c] === 0) {
+//         //toggle this spot
+//         newBoard.togglePiece(r, c);
+//       }
+//       result.push(copyBoard);
+//       copyBoard = originalBoard;
+//     }
+//   }
+  
+
+  // for (var r = 0; r < size; r++) {
+  //   for (var c = 0; c < size; c++) {
+  //     if () {
+  //       var notToToggle = board.togglePiece(r,c);
+  //     }
+  //   }
+  // }
+
+  
+
+  // if place piece then havePlacedAPiece = true;
+  //go through each box in the board
+  // for () {
+  //   //if not 1 or not null {
+  //   //check for conflicts
+  //   //}
+
+  // }
+//   return result;
+  
+// }
+
+// window.copyBoard = function(board) {
+//   var currentBoardPlaying = [];
+//   for (var i = 0; i < size; i++) {
+//      currentBoardPlaying[i] = originalBoard[i].slice(); 
+//   }
+// }
+
+// var addNextPiece = function(board = new Board({n: n})) {
+//     var originalBoard = [...board];
+//     var temp = [];
+//     for (var i = 0; i < n; i ++) {
+//       for (var j = 0; j < n; j++) {
+//         if (!board.hasRowConflictAt(i) && !board.hasAnyColConflicts(j) && board[i][j] !== 1) {
+//           board[i][j] = 1;
+//           temp.push(board);
+//           board = originalBoard;
+//         }
+//       }
+//     }
+//     partialAnswers.push(temp);
+//   };
 
 
 
@@ -75,10 +144,10 @@ window.findNRooksSolution = function(n) {
 
 
 
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  //var solution = undefined; //fixme
-  return solution;
-};
+//   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+//   //var solution = undefined; //fixme
+//   return solution;
+// };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {

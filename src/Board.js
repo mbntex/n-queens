@@ -23,8 +23,31 @@
         return this.get(rowIndex);
       }, this);
     },
-
+    
+    //return an array of (rowI, colI) that already had a null there
+    //which means that later, we don't want to untoggle these indecies
     togglePiece: function(rowIndex, colIndex) {
+      // var size = this.get('n');
+      // for (var i = 0; i < size; i++) {
+      //   //the row that I want 
+      //   this.get(rowIndex)[i] = null;
+      //   this.get(i)[rowIndex] = null;
+      // }
+      
+      this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
+      this.trigger('change');
+    },
+    
+    //toggles the row, col index and toggles each back (1 ->0 and null -> 0)
+    // returns an array
+    unTogglePiece: function(rowIndex, colIndex, arrayOfThingsNotToToggleback) {
+      var size = this.get('n');
+      for (var i = 0; i < size; i++) {
+        //the row that I want 
+        this.get(rowIndex)[i] = null;
+        this.get(i)[rowIndex] = null;
+      }
+      
       this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
       this.trigger('change');
     },
