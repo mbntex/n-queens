@@ -16,9 +16,67 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  var myBoard = new Board({n: n});
+  var allCompleteSolutions = [];
+  var allValidPossibleMoves = addNextPiece(myBoard);
+  allValidPossibleMoves.forEach(function(state) {
+    addNextPiece(state);
+  });
+  var partialAnswers = [];
+  //returns an array of all possible moves
+  var addNextPiece = function(board = new Board({n: n})) {
+    var originalBoard = [...board];
+    var temp = [];
+    for (var i = 0; i < n; i ++) {
+      for (var j = 0; j < n; j++) {
+        if (!board.hasRowConflictAt(i) && !board.hasAnyColConflicts(j) && board[i][j] !== 1) {
+          board[i][j] = 1;
+          temp.push(board);
+          board = originalBoard;
+        }
+      }
+    }
+    partialAnswers.push(temp);
+  };
+    
+ 
+};
+
+
+
+  //create answer array;
+  //create function that takes an array and outputs an array of the next possible steps
+    //take the board input and find the next possible step and place that can be used to place a rook
+        //when found, place the rook
+      //check if all possible squares have been checked
+        //if yes, all have been checked, then the we know there are no more places to try to place a rook & check if rooks = n
+          //if rooks = n this is a solution
+            //push it to the answer array
+          //if not this can be dismissed
+        //if some squares remain to be checked, output this board to a place so we can recursively put this back in
+    //start the funciton again but do not reuse this location
+    //return your array of answers.length;
+
+
+
+
+
+  
+  //var finalBoard = new Board({n:n});
+  // helper(board) {
+      //
+      //getAvaliblesMoves();
+      //for each of the available moves, we create a newState board
+        //helper(newState)
+  //}
+  //helper(finalBoard);
+  
+
+
+
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  //var solution = undefined; //fixme
   return solution;
 };
 
